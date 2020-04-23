@@ -28,7 +28,7 @@ public class ProviderService {
 
     private void setFields(Provider provider){
 
-        for(Fields field: provider.getFields()){
+        for(Fields field: provider.getData()){
             ProviderFields providerFields = new ProviderFields();
             providerFields.setProviderId(provider.getProviderId());
             providerFields.setName(field.getName());

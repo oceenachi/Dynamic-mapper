@@ -8,5 +8,5 @@ public class Provider {
 
     private Long providerId;
 
-    private List<Fields> fields;
+    private List<Fields> data;
 }
