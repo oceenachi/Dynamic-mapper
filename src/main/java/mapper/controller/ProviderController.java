@@ -32,13 +32,12 @@ public class ProviderController {
     }
 
     @GetMapping("/filter/{providerId}")
-    private List<ProviderFields> filterData(@PathVariable("providerId") String providerId,
+    private List<ResponseData> filterData(@PathVariable("providerId") String providerId,
                                             @RequestParam(required = false) String name,
                                             @RequestParam(required = false) String age,
                                             @RequestParam(required = false) String timestamp) {
 
        return providerService.filterData(Long.parseLong(providerId), providerService.mapRequestParam(name, age, timestamp));
-
 
     }
 

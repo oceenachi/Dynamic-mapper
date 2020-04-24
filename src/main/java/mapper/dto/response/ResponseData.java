@@ -1,13 +1,15 @@
 package mapper.dto.response;
 
-import java.sql.Time;
+import lombok.Data;
 import java.sql.Timestamp;
 
+
+@Data
 public class ResponseData {
 
     private String name;
 
     private int age;
 
-    private Timestamp timestamp;
+    private Long timestamp;
 }

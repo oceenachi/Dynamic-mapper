@@ -12,5 +12,5 @@ public class Fields {
 
     private int age;
 
-    private Timestamp timestamp;
+    private Long timestamp;
 }

@@ -3,7 +3,6 @@ package mapper.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Data
 @Entity
@@ -13,11 +12,15 @@ public class ProviderFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String firstName;
+
+    private String surName;
+
+    private String otherName;
 
     private int age;
 
-    private Timestamp timestamp;
+    private Long timestamp;
 
     private Long providerId;
 
