@@ -1,6 +1,5 @@
 package mapper.service;
 
-
 import mapper.dto.request.Fields;
 import mapper.dto.request.Provider;
 import mapper.dto.request.QueryFields;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -67,7 +65,7 @@ public class ProviderService {
         Specification<ProviderFields> specification = Specification.where(withProviderId(providerId));
 
         if(queries.getName() != null){
-            System.out.println(Arrays.toString(queries.getName()));
+//            System.out.println(Arrays.toString(queries.getName()));
             specification = specification
                     .and(withName(queries.getName()[1]));
             assert specification != null;
@@ -87,7 +85,7 @@ public class ProviderService {
                     .and(withTimeStamp(Long.parseLong(queries.getTimestamp()[1]), queries.getTimestamp()[0]));
         }
 
-        System.out.println(providerRepository.findAll(specification));
+//        System.out.println(providerRepository.findAll(specification));
 
         return this.mapSpecificationToResponse(providerRepository.findAll(specification));
     }
@@ -127,11 +125,9 @@ public class ProviderService {
                     .and(criteriaBuilder.equal(root.get("providerId"), providerId));
 
         });
-
     }
 
     private static Specification<ProviderFields> withName(String name){
-//        System.out.println("with name " + name);
         return ((root, criteriaQuery, criteriaBuilder) -> {
             return criteriaBuilder
                     .and(criteriaBuilder.like(criteriaBuilder.upper(root.get("firstName")), name.toUpperCase()));
