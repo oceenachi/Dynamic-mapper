@@ -50,80 +50,43 @@ public class ProviderService {
 
             ProviderFields providerFields = new ProviderFields();
             providerFields.setProviderId(provider.getProviderId());
-            providerFields.setFields((Map<String, String>) field);
 
+            providerFields.setFields(this.formatField((Map<String, Object>) field));
 
-////            Gson gson = new Gson;
-//            JSONParser parser = new JSONParser();
-//            System.out.println("got here");
-
-//            System.out.println(field.toString());
-//            String jsonField = new Gson().toJson(field);
-//            System.out.println(jsonField);
-//            JSONObject obj = (JSONObject) parser.parse(field.toString());
-//            JSONObject obj =
-//            System.out.println(field.toString());
-//            Map<String, String> dynamicField = (Map<String, String>) obj.entrySet();
-
-//            System.out.println(dynamicField);
-
-//            for(Map.Entry entries: field){
-//            String stringField = field.toString();
-//            System.out.println( stringField);
-//                HashMap result =
-//                        new ObjectMapper().readValue(stringField, HashMap.class);
-//                System.out.println(result);
-
-//            }
-//            HashMap result =
-//                    new ObjectMapper().readValue((byte[]) field, HashMap.class);
-//            System.out.println(result);
-//            Map<String, String> dynamicFields= new HashMap<>();
-
-
-//            Map<String, Object> input= new HashMap<String, Object>();
-
-
-//            providerFields.setFields(result);
-
-
-
-
-
-
-
-
-
-
-
-
-            InputFields inputField = new InputFields();
-//            inputField.setInputFields(input);
-
-
-
-
-
-
-
-//            providerFields.setFields();
-//            String[] fullName = field.getName().split("\\s+");
-//
-//
-//            assert fullName[0] != null;
-//            providerFields.setFirstName(fullName[0]);
-//            assert fullName[1] != null;
-//            providerFields.setSurName(fullName[1]);
-//            assert fullName[2] != null;
-//            if(fullName.length > 2){
-//                providerFields.setOtherName(fullName[2]);
-//            }
-//            providerFields.setAge(field.getAge());
-//            providerFields.setTimestamp(field.getTimestamp());
+//            System.out.println(providerFields);
             providerRepository.save(providerFields);
         }
 
     }
+
+    private Map<String, String> formatField(Map<String, Object> input){
+
+        Map<String, String> result = new HashMap<>();
+
+        input.forEach((key,val)->{
+            if(val instanceof Integer){
+                result.put(key, ((Integer)val).toString());
+            }
+            else if(val instanceof String){
+                result.put(key, (String) val);
+            }
+        });
+        return result;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 //    ○ eqc: equalsIgnoreCase (string)
 //    ○ eq: equalsTo (timestamp and integer)
 //    ○ lt: lessThan timestamp and integer)

@@ -28,22 +28,26 @@ public class ProviderFields {
 //    @OneToMany
 //    private List<InputFields> fields = new ArrayList<>();
 
+    private Long providerId;
+
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name="keyValueFields")
     @MapKeyColumn(name="dataFields")
-    private Map<String, String> fields = new HashMap<>(7);
+    private Map<String, String> fields = new HashMap<String, String>(7);
 
-    @JsonAnyGetter
-    public Map<String, String> any() {
-        return fields;
-    }
+//    @JsonAnyGetter
+//    public Map<String, Object> any() {
+//        return fields;
+//    }
+//
+//    @JsonAnySetter
+//    public void set(String name, Object value) {
+//        fields.put(name, value);
+//    }
 
-    @JsonAnySetter
-    public void set(String name, String value) {
-        fields.put(name, value);
-    }
+//    @Convert(converter = HashMapConverter.class)
+//    private Map<String, Object> customerAttributes;
 
 
-    private Long providerId;
 
 }
