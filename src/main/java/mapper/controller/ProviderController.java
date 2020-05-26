@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -32,12 +33,10 @@ public class ProviderController {
 
 
     @GetMapping("/filter/{providerId}")
-    private List<ResponseData> filterData(@PathVariable("providerId") String providerId,
-                                            @RequestParam(required = false) String name,
-                                            @RequestParam(required = false) String age,
-                                            @RequestParam(required = false) String timestamp) {
+    private void filterData(@PathVariable("providerId") String providerId,
+                                            @RequestParam Map<String, String> allParams) {
 
-       return providerService.filterData(Long.parseLong(providerId), providerService.mapRequestParam(name, age, timestamp));
+        providerService.filterData(Long.parseLong(providerId), providerService.mapRequestParam(allParams));
 
     }
 

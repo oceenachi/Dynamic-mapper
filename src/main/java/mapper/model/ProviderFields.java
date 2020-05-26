@@ -45,9 +45,6 @@ public class ProviderFields {
 //        fields.put(name, value);
 //    }
 
-//    @Convert(converter = HashMapConverter.class)
-//    private Map<String, Object> customerAttributes;
-
 
 
 }

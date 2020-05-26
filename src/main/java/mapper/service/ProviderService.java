@@ -1,9 +1,5 @@
 package mapper.service;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import mapper.dto.InputFields;
 import mapper.dto.request.Provider;
 import mapper.dto.request.QueryFields;
 import mapper.dto.response.ResponseData;
@@ -14,10 +10,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -33,8 +25,8 @@ public class ProviderService {
 
     @Autowired
     public ProviderService(ProviderRepository providerRepository){
-        this.providerRepository = providerRepository;
 
+        this.providerRepository = providerRepository;
     }
 
     //Method to load data in the database
@@ -53,7 +45,6 @@ public class ProviderService {
 
             providerFields.setFields(this.formatField((Map<String, Object>) field));
 
-//            System.out.println(providerFields);
             providerRepository.save(providerFields);
         }
 
@@ -79,61 +70,50 @@ public class ProviderService {
 
 
 
-
-
-
-
-
-
-
-
 //    ○ eqc: equalsIgnoreCase (string)
 //    ○ eq: equalsTo (timestamp and integer)
 //    ○ lt: lessThan timestamp and integer)
 //    ○ gt: greaterThan )any field timestamp and integer)
 
-    public List<ResponseData> filterData(Long providerId, QueryFields queries){
+    public void filterData(Long providerId, QueryFields queries){
 
         Specification<ProviderFields> specification = Specification.where(withProviderId(providerId));
 
-        if(queries.getName() != null){
-//            System.out.println(Arrays.toString(queries.getName()));
-            specification = specification
-                    .and(withName(queries.getName()[1]));
-            assert specification != null;
-            specification = specification
-                    .or(withSurName(queries.getName()[1]));
-        }
-
-        if(queries.getAge() != null){
-            assert specification != null;
-            specification = specification
-                    .and(withAge(Integer.parseInt(queries.getAge()[1]), queries.getAge()[0]));
-        }
-
-        if(queries.getTimestamp() != null){
-            assert specification != null;
-            specification = specification
-                    .and(withTimeStamp(Long.parseLong(queries.getTimestamp()[1]), queries.getTimestamp()[0]));
-        }
-
-//        System.out.println(providerRepository.findAll(specification));
-
-        return this.mapSpecificationToResponse(providerRepository.findAll(specification));
+//        if(queries.getName() != null){
+////            System.out.println(Arrays.toString(queries.getName()));
+//            specification = specification
+//                    .and(withName(queries.getName()[1]));
+//            assert specification != null;
+//            specification = specification
+//                    .or(withSurName(queries.getName()[1]));
+//        }
+//
+//        if(queries.getAge() != null){
+//            assert specification != null;
+//            specification = specification
+//                    .and(withAge(Integer.parseInt(queries.getAge()[1]), queries.getAge()[0]));
+//        }
+//
+//        if(queries.getTimestamp() != null){
+//            assert specification != null;
+//            specification = specification
+//                    .and(withTimeStamp(Long.parseLong(queries.getTimestamp()[1]), queries.getTimestamp()[0]));
+//        }
+//
+////        System.out.println(providerRepository.findAll(specification));
+//
+//        return this.mapSpecificationToResponse(providerRepository.findAll(specification));
     }
 
-    public QueryFields mapRequestParam(String name, String age, String timestamp){
+    public QueryFields mapRequestParam(Map<String, String> allParams){
 
         QueryFields queryFields = new QueryFields();
-        if(name != null){
-            queryFields.setName(name.split(":"));
-        }
-        if(age != null ){
-            queryFields.setAge(age.split(":"));
-        }
-        if(timestamp != null){
-            queryFields.setTimestamp(timestamp.split(":"));
-        }
+        System.out.println(allParams);
+
+        allParams.forEach(queryFields::set);
+
+        System.out.println(queryFields);
+
         return queryFields;
     }
 
@@ -165,7 +145,6 @@ public class ProviderService {
                     .and(criteriaBuilder.like(criteriaBuilder.upper(root.get("firstName")), name.toUpperCase()));
 
         });
-
     }
 
     private static Specification<ProviderFields> withSurName(String name){
@@ -215,7 +194,7 @@ public class ProviderService {
             case "eq":
                 return ((root, criteriaQuery, criteriaBuilder) -> {
                     return criteriaBuilder
-                            .and(criteriaBuilder.equal(root.get("timestamp"), timeStamp));
+                            .and(criteriaBuilder.(root.get("timestamp"), timeStamp));
                 });
 
             case "gt":
@@ -232,5 +211,28 @@ public class ProviderService {
         return null;
 
     }
+//    private static Specification<ProviderFields> withTimeStamp(Long timeStamp, String filterCode) {
+
+private static Specification<ProviderFields> switchSpecifications(Map<String, String> allParams){
+
+//    return((root, criteriaQuery, criteriaBuilder) -> {
+//        return criteriaBuilder
+//                .and(criteriaBuilder.equal(root.get("providerId"), providerId));
+//
+//    });
+
+    allParams.forEach((key, val)->{
+        String[] filters = val.split(":");
+
+//        if(filters[0].equals("eqc")){
+            return ((root, criteriaQuery, criteriaBuilder) -> {
+                return criteriaBuilder
+                        .and(criteriaBuilder.like(criteriaBuilder.upper(root.get("key")), filters[1].toUpperCase()));
+
+            });
+
+    });
+
+    return null;
 
 }

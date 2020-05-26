@@ -1,15 +1,26 @@
 package mapper.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import lombok.Data;
 
+import java.util.HashMap;
+import java.util.Map;
 
-@Data
+
+//@Data
 public class QueryFields {
 
-        private String[] name;
+        private Map<String, String> other = new HashMap<>();
 
-        private String[] age;
+        @JsonAnyGetter
+        public Map<String, String> any() {
+            return other;
+        }
 
-        private String[] timestamp;
+        @JsonAnySetter
+        public void set(String name, String value) {
+            other.put(name, value);
+        }
 
 }
