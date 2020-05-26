@@ -5,10 +5,12 @@ import mapper.dto.request.QueryFields;
 import mapper.dto.response.ResponseData;
 import mapper.model.ProviderFields;
 import mapper.service.ProviderService;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -24,7 +26,7 @@ public class ProviderController {
     }
 
     @PostMapping("/provider")
-    public ResponseEntity<?> loadData(@RequestBody Provider provider){
+    public ResponseEntity<?> loadData(@RequestBody Provider provider) throws ParseException, IOException {
        return providerService.addData(provider);
     }
 
