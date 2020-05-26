@@ -1,5 +1,7 @@
 package mapper.model;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import lombok.Data;
 import mapper.dto.InputFields;
 
@@ -30,6 +32,16 @@ public class ProviderFields {
     @CollectionTable(name="keyValueFields")
     @MapKeyColumn(name="dataFields")
     private Map<String, String> fields = new HashMap<>(7);
+
+    @JsonAnyGetter
+    public Map<String, String> any() {
+        return fields;
+    }
+
+    @JsonAnySetter
+    public void set(String name, String value) {
+        fields.put(name, value);
+    }
 
 
     private Long providerId;

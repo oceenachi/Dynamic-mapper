@@ -50,20 +50,22 @@ public class ProviderService {
 
             ProviderFields providerFields = new ProviderFields();
             providerFields.setProviderId(provider.getProviderId());
+            providerFields.setFields((Map<String, String>) field);
+
 
 ////            Gson gson = new Gson;
-            JSONParser parser = new JSONParser();
+//            JSONParser parser = new JSONParser();
 //            System.out.println("got here");
 
 //            System.out.println(field.toString());
 //            String jsonField = new Gson().toJson(field);
 //            System.out.println(jsonField);
-            JSONObject obj = (JSONObject) parser.parse(field.toString());
+//            JSONObject obj = (JSONObject) parser.parse(field.toString());
 //            JSONObject obj =
-            System.out.println(field.toString());
-            Map<String, String> dynamicField = (Map<String, String>) obj.entrySet();
+//            System.out.println(field.toString());
+//            Map<String, String> dynamicField = (Map<String, String>) obj.entrySet();
 
-            System.out.println(dynamicField);
+//            System.out.println(dynamicField);
 
 //            for(Map.Entry entries: field){
 //            String stringField = field.toString();
@@ -118,7 +120,7 @@ public class ProviderService {
 //            }
 //            providerFields.setAge(field.getAge());
 //            providerFields.setTimestamp(field.getTimestamp());
-//            providerRepository.save(providerFields);
+            providerRepository.save(providerFields);
         }
 
     }
