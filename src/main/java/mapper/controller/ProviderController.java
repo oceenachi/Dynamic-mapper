@@ -1,11 +1,8 @@
 package mapper.controller;
 
 import mapper.dto.request.Provider;
-import mapper.dto.request.QueryFields;
-import mapper.dto.response.ResponseData;
 import mapper.model.ProviderFields;
-import mapper.service.ProviderService;
-import org.json.simple.parser.ParseException;
+import mapper.service.NewProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,24 +16,24 @@ import java.util.Map;
 @RequestMapping("/api/v1/")
 public class ProviderController {
 
-    ProviderService providerService;
+    NewProviderService newProviderService;
 
     @Autowired
-    public ProviderController( ProviderService providerService){
-        this.providerService = providerService;
+    public ProviderController( NewProviderService newProviderService){
+        this.newProviderService = newProviderService;
     }
 
     @PostMapping("/provider")
-    public ResponseEntity<?> loadData(@RequestBody Provider provider) throws ParseException, IOException {
-       return providerService.addData(provider);
+    public ResponseEntity<?> loadData(@RequestBody Provider provider) throws IOException {
+       return newProviderService.addData(provider);
     }
 
 
     @GetMapping("/filter/{providerId}")
-    private void filterData(@PathVariable("providerId") String providerId,
+    private List<ProviderFields> filterData(@PathVariable("providerId") String providerId,
                                             @RequestParam Map<String, String> allParams) {
 
-        providerService.filterData(Long.parseLong(providerId), providerService.mapRequestParam(allParams));
+        return newProviderService.filterData(Long.parseLong(providerId), allParams);
 
     }
 
