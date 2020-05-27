@@ -3,6 +3,7 @@ package mapper.service;
 import mapper.dto.request.Provider;
 import mapper.dto.request.QueryFields;
 import mapper.dto.response.ResponseData;
+import mapper.dto.response.ResponseStructure;
 import mapper.model.ProviderFields;
 import mapper.repository.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,7 @@ public class NewProviderService {
 //    ○ lt: lessThan timestamp and integer)
 //    ○ gt: greaterThan )any field timestamp and integer)
 
-        public List<ProviderFields> filterData(Long providerId, Map<String, String> allParams){
+        public List<Object> filterData(Long providerId, Map<String, String> allParams){
             this.mapRequestParam(allParams);
 
             System.out.println("allParams: "+ allParams);
@@ -95,7 +96,7 @@ public class NewProviderService {
                 System.out.println(filters[1] + 500);
 
                 if (filters[0].equals("eqc")) {
-                    Criteria eqcCriteria = Criteria.where(("fields." + key).toLowerCase()).regex((String) filters[1].toLowerCase());
+                    Criteria eqcCriteria = Criteria.where(("fields." + key).toLowerCase()).regex("*" + filters[1].toLowerCase() + "*");
                     dynamicQuery.addCriteria(eqcCriteria);
                 }
 
@@ -121,8 +122,8 @@ public class NewProviderService {
 
             System.out.println(dynamicQuery);
 
-            System.out.println(result);
-        return result;
+
+        return this.mapResultToResponse(result);
         }
 
         public QueryFields mapRequestParam(Map<String, String> allParams){
@@ -137,15 +138,15 @@ public class NewProviderService {
         }
 
 
-        private List<ResponseData> mapResultToResponse(List<ProviderFields> approvedFields){
-            List<ResponseData> response = new ArrayList<>(approvedFields.size());
+        private List<Object> mapResultToResponse(List<ProviderFields> approvedFields){
+
+//            ResponseStructure responseStructure = new ResponseStructure();
+            List<Object> response = new ArrayList<>(approvedFields.size());
             for(ProviderFields providerFields : approvedFields){
-                ResponseData responseData = new ResponseData();
-//            responseData.setAge(providerFields.getAge());
-//            responseData.setTimestamp(providerFields.getTimestamp());
-//            responseData.setName(providerFields.getFirstName() + " " + providerFields.getSurName());
-                response.add(responseData);
+                response.add(providerFields.getFields());
             }
+//            responseStructure.setResult(response);
+
             return response;
         }
 

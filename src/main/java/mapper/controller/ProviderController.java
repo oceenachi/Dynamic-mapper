@@ -30,7 +30,7 @@ public class ProviderController {
 
 
     @GetMapping("/filter/{providerId}")
-    private List<ProviderFields> filterData(@PathVariable("providerId") String providerId,
+    private List<Object> filterData(@PathVariable("providerId") String providerId,
                                             @RequestParam Map<String, String> allParams) {
 
         return newProviderService.filterData(Long.parseLong(providerId), allParams);
