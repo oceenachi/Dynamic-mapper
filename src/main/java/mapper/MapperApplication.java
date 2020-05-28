@@ -12,7 +12,7 @@ public class MapperApplication {
 
     public static void main(String[] args) {
 
-//        MongoClient mongoClient = MongoClients.create("mongodb+srv://francisca:ifes@mapper-2x1ao.mongodb.net/test?retryWrites=true&w=majority");
+//        MongoClient mongoClient = MongoClients.create("mongodb+srv://francisca:ifes@mapper-2x1ao.mongodb.net/data-mapper?retryWrites=true");
 
         SpringApplication.run(MapperApplication.class, args);
     }
