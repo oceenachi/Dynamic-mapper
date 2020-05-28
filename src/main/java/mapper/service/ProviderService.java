@@ -27,7 +27,7 @@ public class ProviderService {
 //    public ProviderService(ProviderRepository providerRepository){
 //
 //        this.providerRepository = providerRepository;
-    }
+//    }
 //
 //    //Method to load data in the database
 //    public ResponseEntity<?> addData(Provider provider) throws ParseException, IOException {
@@ -79,30 +79,28 @@ public class ProviderService {
 //
 //        Specification<ProviderFields> specification = Specification.where(withProviderId(providerId));
 //
-////        if(queries.getName() != null){
-//////            System.out.println(Arrays.toString(queries.getName()));
-////            specification = specification
-////                    .and(withName(queries.getName()[1]));
-////            assert specification != null;
-////            specification = specification
-////                    .or(withSurName(queries.getName()[1]));
-////        }
-////
-////        if(queries.getAge() != null){
-////            assert specification != null;
-////            specification = specification
-////                    .and(withAge(Integer.parseInt(queries.getAge()[1]), queries.getAge()[0]));
-////        }
-////
-////        if(queries.getTimestamp() != null){
-////            assert specification != null;
-////            specification = specification
-////                    .and(withTimeStamp(Long.parseLong(queries.getTimestamp()[1]), queries.getTimestamp()[0]));
-////        }
-////
-//////        System.out.println(providerRepository.findAll(specification));
-////
-////        return this.mapSpecificationToResponse(providerRepository.findAll(specification));
+//        if(queries.getName() != null){
+//            specification = specification
+//                    .and(withName(queries.getName()[1]));
+//            assert specification != null;
+//            specification = specification
+//                    .or(withSurName(queries.getName()[1]));
+//        }
+//
+//        if(queries.getAge() != null){
+//            assert specification != null;
+//            specification = specification
+//                    .and(withAge(Integer.parseInt(queries.getAge()[1]), queries.getAge()[0]));
+//        }
+//
+//        if(queries.getTimestamp() != null){
+//            assert specification != null;
+//            specification = specification
+//                    .and(withTimeStamp(Long.parseLong(queries.getTimestamp()[1]), queries.getTimestamp()[0]));
+//        }
+//
+//
+//        return this.mapSpecificationToResponse(providerRepository.findAll(specification));
 //    }
 //
 //    public QueryFields mapRequestParam(Map<String, String> allParams){
@@ -194,7 +192,7 @@ public class ProviderService {
 //            case "eq":
 //                return ((root, criteriaQuery, criteriaBuilder) -> {
 //                    return criteriaBuilder
-//                            .and(criteriaBuilder.(root.get("timestamp"), timeStamp));
+//                            .and(criteriaBuilder.equal(root.get("timestamp"), timeStamp));
 //                });
 //
 //            case "gt":
@@ -211,28 +209,26 @@ public class ProviderService {
 //        return null;
 //
 //    }
-////    private static Specification<ProviderFields> withTimeStamp(Long timeStamp, String filterCode) {
+//
+//
 //
 //private static Specification<ProviderFields> switchSpecifications(Map<String, String> allParams){
-//
-////    return((root, criteriaQuery, criteriaBuilder) -> {
-////        return criteriaBuilder
-////                .and(criteriaBuilder.equal(root.get("providerId"), providerId));
-////
-////    });
 //
 //    allParams.forEach((key, val)->{
 //        String[] filters = val.split(":");
 //
-////        if(filters[0].equals("eqc")){
+//        if(filters[0].equals("eqc")){
 //            return ((root, criteriaQuery, criteriaBuilder) -> {
 //                return criteriaBuilder
-//                        .and(criteriaBuilder.like(criteriaBuilder.upper(root.get("key")), filters[1].toUpperCase()));
-//
+//                        .and(criteriaBuilder.lessThan(root.get("timestamp"), timeStamp));
 //            });
+//
+//
+//
+//        }
+//
+//        }
 //
 //    });
 //
-//    return null;
-//
-//}
+}

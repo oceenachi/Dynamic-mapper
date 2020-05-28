@@ -2,8 +2,6 @@ package mapper.service;
 
 import mapper.dto.request.Provider;
 import mapper.dto.request.QueryFields;
-import mapper.dto.response.ResponseData;
-import mapper.dto.response.ResponseStructure;
 import mapper.model.ProviderFields;
 import mapper.repository.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
 public class NewProviderService {
 
         ProviderRepository providerRepository;
-
-//        @Inject
         private MongoTemplate mongoTemplate;
 
         @Autowired
@@ -49,7 +42,6 @@ public class NewProviderService {
                 ProviderFields providerFields = new ProviderFields();
                 providerFields.setProviderId(provider.getProviderId());
 
-//                providerFields.setFields(this.formatField((Map<String, Object>) field));
                 providerFields.setFields((Map<String, Object>) field);
 
                 providerRepository.save(providerFields);
@@ -74,7 +66,6 @@ public class NewProviderService {
         }
 
 
-
 //    ○ eqc: equalsIgnoreCase (string)
 //    ○ eq: equalsTo (timestamp and integer)
 //    ○ lt: lessThan timestamp and integer)
@@ -92,16 +83,14 @@ public class NewProviderService {
             allParams.forEach((key, val) ->{
 
                 String[] filters  = val.split(":");
-                System.out.println(filters[0]);
-                System.out.println(filters[1] + 500);
+                System.out.println(Arrays.toString(filters));
 
                 if (filters[0].equals("eqc")) {
-                    Criteria eqcCriteria = Criteria.where(("fields." + key).toLowerCase()).regex("*" + filters[1].toLowerCase() + "*");
+                    Criteria eqcCriteria = Criteria.where(("fields." + key)).regex( this.toLikeRegex(filters[1].trim()), "i");
                     dynamicQuery.addCriteria(eqcCriteria);
                 }
 
                 if (filters[0].equals("eq")) {
-//                    System.out.println("HERE: " +Criteria.where("fields." + key));
                     Criteria eqCriteria = Criteria.where("fields." + key).is(Long.parseLong(filters[1]));
                     dynamicQuery.addCriteria(eqCriteria);
                 }
@@ -120,10 +109,11 @@ public class NewProviderService {
             List<ProviderFields> result =
                     mongoTemplate.find(dynamicQuery, ProviderFields.class, "providerFields");
 
-            System.out.println(dynamicQuery);
-
-
         return this.mapResultToResponse(result);
+        }
+
+        private String toLikeRegex(String source) {
+            return source.replaceAll("\\*", ".*");
         }
 
         public QueryFields mapRequestParam(Map<String, String> allParams){
@@ -132,23 +122,18 @@ public class NewProviderService {
 
             allParams.forEach(queryFields::set);
 
-            System.out.println(queryFields);
-
             return queryFields;
         }
 
 
         private List<Object> mapResultToResponse(List<ProviderFields> approvedFields){
 
-//            ResponseStructure responseStructure = new ResponseStructure();
             List<Object> response = new ArrayList<>(approvedFields.size());
             for(ProviderFields providerFields : approvedFields){
                 response.add(providerFields.getFields());
             }
-//            responseStructure.setResult(response);
 
             return response;
         }
-
 
     }
