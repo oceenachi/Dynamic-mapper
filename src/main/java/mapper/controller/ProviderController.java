@@ -1,16 +1,13 @@
 package mapper.controller;
 
 import mapper.dto.request.Provider;
-import mapper.dto.request.QueryFields;
-import mapper.dto.response.ResponseData;
 import mapper.model.ProviderFields;
-import mapper.service.ProviderService;
+import mapper.service.NewProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,28 +16,25 @@ import java.util.Map;
 @RequestMapping("/api/v1/")
 public class ProviderController {
 
-    ProviderService providerService;
+    NewProviderService newProviderService;
 
     @Autowired
-    public ProviderController( ProviderService providerService){
-        this.providerService = providerService;
+    public ProviderController( NewProviderService newProviderService){
+        this.newProviderService = newProviderService;
     }
 
     @PostMapping("/provider")
-    public ResponseEntity<?> loadData(@RequestBody Provider provider){
-       return providerService.addData(provider);
+    public ResponseEntity<?> loadData(@RequestBody Provider provider) throws IOException {
+       return newProviderService.addData(provider);
     }
 
 
     @GetMapping("/filter/{providerId}")
-    private List<ResponseData> filterData(@PathVariable("providerId") String providerId,
-                                            @RequestParam(required = false) String name,
-                                            @RequestParam(required = false) String age,
-                                            @RequestParam(required = false) String timestamp) {
+    private List<Object> filterData(@PathVariable("providerId") String providerId,
+                                            @RequestParam Map<String, String> allParams) {
 
-       return providerService.filterData(Long.parseLong(providerId), providerService.mapRequestParam(name, age, timestamp));
+        return newProviderService.filterData(Long.parseLong(providerId), allParams);
 
     }
-
 
 }

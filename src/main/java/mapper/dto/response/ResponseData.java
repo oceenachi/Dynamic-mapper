@@ -1,7 +1,6 @@
 package mapper.dto.response;
 
 import lombok.Data;
-import java.sql.Timestamp;
 
 
 @Data

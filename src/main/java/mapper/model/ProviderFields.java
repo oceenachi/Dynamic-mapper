@@ -1,27 +1,23 @@
 package mapper.model;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import javax.persistence.*;
+import java.util.*;
 
 @Data
-@Entity
+@Document
 public class ProviderFields {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String firstName;
-
-    private String surName;
-
-    private String otherName;
-
-    private int age;
-
-    private Long timestamp;
+    private String id;
 
     private Long providerId;
+
+    private Map<String, Object> fields;
+
+
 
 }

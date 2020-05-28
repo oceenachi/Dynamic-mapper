@@ -1,10 +1,10 @@
 package mapper.repository;
 
 import mapper.model.ProviderFields;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProviderRepository extends JpaRepository<ProviderFields, Long>, JpaSpecificationExecutor<ProviderFields> {
+public interface ProviderRepository extends MongoRepository<ProviderFields, String> {
+
 }
